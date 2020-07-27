@@ -1,10 +1,11 @@
 import React from 'react'
 import './App.css'
+import { LoginPage } from './pages'
 
-function App() {
+const App = () => {
     return (
         <div className="App">
-            <p>test</p>
+            <LoginPage/>
         </div>
     )
 }
