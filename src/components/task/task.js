@@ -2,7 +2,7 @@ import React, { Fragment, useState, useContext, useEffect } from 'react'
 import { Button, Card, Form, Modal, Input } from 'antd'
 import { AuthContext } from '../../features/authen'
 import styled from 'styled-components'
-import { callGetTasks, callSetTasks } from '../../features/task/taskAPI'
+import { callGetTasks, callSetTasks, callUpdateTasks, callDeleteTasks } from '../../features/task/taskAPI'
 
 export const TaskPanel = () => {
     const [tasks, setTasks] = useState([])
@@ -82,9 +82,83 @@ export const TaskPanel = () => {
         </Modal>
     )
 
+    const EditModal = () => (
+        <Modal
+            visible={showEditModal}
+            footer={null}
+            onCancel={() => setShowEditModal(false)}
+        >
+            <Form
+                form={form}
+                initialValues={
+                    tasks.filter((task) => task._id === currentTask)[0]
+                }
+                onFinish={(values) => {
+                    try {
+                        callUpdateTasks({ currentTask, data: values, config })
+                        setShowEditModal(false)
+                        handleUpdateLocalTasks(config)
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }}
+                layout="vertical"
+            >
+                <Form.Item
+                    label="Title"
+                    name="title"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your title!',
+                        },
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Description"
+                    name="description"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your description!',
+                        },
+                    ]}
+                >
+                    <Input.TextArea />
+                </Form.Item>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                        Update
+                    </Button>
+                    <Button
+                        type="danger"
+                        onClick={
+                            // async () => {
+                            // const url = `https://candidate.neversitup.com/todo/todos/${currentTask}`
+                            // const res = await axios.delete(url, config)
+                            // console.log(res)
+                            () => {
+                                callDeleteTasks({ currentTask, config })
+                                setShowEditModal(false)
+                                handleUpdateLocalTasks(config)
+                            }
+                        }
+                    >
+                        Delete
+                    </Button>
+                </Form.Item>
+            </Form>
+        </Modal>
+    )
+
     return (
         <Fragment>
             <AddModal />
+            <EditModal />
             {tasks.length <= 0 ? (
                 <EmptyTaskPanel>
                     <EmptyTaskDescription>
@@ -99,15 +173,18 @@ export const TaskPanel = () => {
                 </EmptyTaskPanel>
             ) : (
                 <Fragment>
-                    {tasks.map(({ _id, title, description }) => (
+                    {tasks.map( task => (
                         <StyledCard
-                            title={title}
-                            onClick={async () => {
+                            title={task.title}
+                            onClick={ async () => {
+                                await setCurrentTask(task._id)
+                                // console.log(_id)
+                                // console.log(currentTask)
                                 setShowEditModal(true)
                                 form.resetFields()
                             }}
                         >
-                            {description}
+                            {task.description}
                         </StyledCard>
                     ))}
                     <Button
