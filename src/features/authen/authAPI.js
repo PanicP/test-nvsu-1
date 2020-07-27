@@ -11,7 +11,6 @@ export const callGetAuth = async ({ data }) => {
             localStorage.setItem('authToken', token)
         }
     } catch (error) {
-        console.log(error, 'test')
         return false
     }
 }

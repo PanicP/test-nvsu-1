@@ -4,22 +4,17 @@ const Endpoint = 'https://candidate.neversitup.com/todo'
 
 export const callGetTasks = async ({ config }) => {
     try {
-        console.log('config', config)
         const res = await axios.get(`${Endpoint}/todos`, config)
         return res.data
     } catch (error) {
-        console.log(error)
         return []
     }
 }
 
 export const callSetTasks = async ({ data, config }) => {
     try {
-        console.log('set', data, config)
         const res = await axios.post(`${Endpoint}/todos`, data, config)
-    } catch (error) {
-        console.log(error)
-    }
+    } catch (error) {}
 }
 
 export const callUpdateTasks = async ({ currentTask, data, config }) => {
@@ -29,19 +24,14 @@ export const callUpdateTasks = async ({ currentTask, data, config }) => {
             data,
             config
         )
-    } catch (error) {
-        console.log(error)
-    }
+    } catch (error) {}
 }
 
 export const callDeleteTasks = async ({ currentTask, config }) => {
     try {
-        console.log('currentTask', currentTask)
         const res = await axios.delete(
             `${Endpoint}/todos/${currentTask}`,
             config
         )
-    } catch (error) {
-        console.log(error)
-    }
+    } catch (error) {}
 }

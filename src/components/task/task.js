@@ -1,6 +1,5 @@
-import React, { Fragment, useState, useContext, useEffect } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { Button, Card, Form, Modal, Input } from 'antd'
-import { AuthContext } from '../../features/authen'
 import styled from 'styled-components'
 import {
     callGetTasks,
@@ -16,20 +15,13 @@ export const TaskPanel = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [currentTask, setCurrentTask] = useState({})
 
-    const authToken = useContext(AuthContext)
     const [form] = Form.useForm()
 
     const config = {
         headers: {
-            Authorization: `Bearer ${
-                localStorage.getItem('authToken') || authToken
-            }`,
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },
     }
-
-    useEffect(() => {
-        console.log(showDeleteModal)
-    })
 
     useEffect(() => {
         handleUpdateLocalTasks(config)
@@ -37,7 +29,6 @@ export const TaskPanel = () => {
 
     const handleUpdateLocalTasks = async (config) => {
         const tasks = await callGetTasks({ config })
-        console.log('tasks', tasks)
         setTasks(tasks)
     }
 
@@ -106,9 +97,7 @@ export const TaskPanel = () => {
                         callUpdateTasks({ currentTask, data: values, config })
                         setShowEditModal(false)
                         handleUpdateLocalTasks(config)
-                    } catch (error) {
-                        console.log(error)
-                    }
+                    } catch (error) {}
                 }}
                 layout="vertical"
             >
@@ -244,7 +233,6 @@ export const TaskPanel = () => {
 }
 
 const StyledCard = styled(Card)`
-
     .ant-card-head {
         border-bottom: 0px;
     }
