@@ -1,10 +1,11 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd'
+import { callGetAuth } from '../../features/authen'
 
 export const LoginPanel = () => {
-
     const onFinish = (values) => {
-        console.log('Success', values)
+        const isLoginSucceeded = callGetAuth(values)
+        console.log('gj', values)
     }
 
     const onFinishFailed = (errorInfo) => {
