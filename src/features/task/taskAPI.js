@@ -36,6 +36,7 @@ export const callUpdateTasks = async ({ currentTask, data, config }) => {
 
 export const callDeleteTasks = async ({ currentTask, config }) => {
     try {
+        console.log('currentTask', currentTask)
         const res = await axios.delete(
             `${Endpoint}/todos/${currentTask}`,
             config
