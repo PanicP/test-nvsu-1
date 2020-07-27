@@ -12,7 +12,7 @@ export const callGetAuth = async (values) => {
         )
         if (res) {
             const { token } = res.data
-            localStorage.setItem('token', token)
+            localStorage.setItem('authToken', token)
         }
     } catch (error) {
         console.log(error, 'test')
