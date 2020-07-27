@@ -1,4 +1,7 @@
 import { createContext } from 'react'
 
-export const AuthContext = createContext(localStorage.getItem('authToken'))
+const authToken = localStorage.getItem('authToken')
+// console.log('getauthtoken', authToken)
+export const AuthContext = createContext(authToken)
 
+// export default AuthContext
