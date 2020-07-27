@@ -1,7 +1,7 @@
 import React from 'react'
 import { TaskLayout } from '../components/layout'
 
-export const LoginPage = () => (
+export const TaskPage = () => (
     <TaskLayout>
         
         {/* <TaskPanel/> */}

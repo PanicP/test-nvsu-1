@@ -1,14 +1,10 @@
 import Axios from 'axios'
 
-// export const callGetAuth = (values) => {
-export const callGetAuth = async (values) => {
+export const callGetAuth = async ({ data }) => {
     try {
-        // // console.log(values)
-        // localStorage.setItem('authToken', authToken)
-        // return true
         const res = await Axios.post(
             'https://candidate.neversitup.com/todo/users/auth',
-            values
+            data
         )
         if (res) {
             const { token } = res.data
